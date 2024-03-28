@@ -1,0 +1,18 @@
+*,*::after,*::before {
+    box-sizing: border-box;
+}
+
+.w-75 {
+    width: 85% !important;
+}
+
+.main {
+    width: 80%;
+    border: 2px solid red;
+}
+
+.modal-body::-webkit-scrollbar { width: 0 !important }
+
+.error {
+    font-size: 13px;
+}
