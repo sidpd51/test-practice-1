@@ -509,7 +509,6 @@ const showNestedTable = (index, button) => {
                                                     <td>${education.backlog}</td>
                                                 <tr>`;
                             })
- 
                             neastedTable +=   `   </tbody>
                        </table>`;
  
