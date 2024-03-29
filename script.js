@@ -16,6 +16,8 @@ const dobError = document.getElementById('validateCustom05Error');
 const graduationYear = document.getElementById('validateCustom06');
 const graduationYearError = document.getElementById('validateCustom06Error');
 
+let table = new DataTable('#main-table');
+
 let setUsers = (users) =>{
     localStorage.setItem('users', JSON.stringify(users));
 }
@@ -229,10 +231,12 @@ const addUser = () => {
 
 const renderUsers = () => {
     let users = getUsers();
-    let table = new DataTable('#main-table');
-    table.clear();
+    table.clear().draw();
     users.forEach((element, index)=> {
         table.row.add([
+            `<button class="btn btn-outline-danger" onclick="showNestedTable(${index}, this)">
+                <i class="fa-solid fa-eye"></i>
+            </button>`,
             element.firstName,
             element.lastName,
             element.email,
@@ -474,6 +478,43 @@ const resetForm = ()=>{
     for(const input of allInputs){
         input.classList.remove('is-invalid');
     }
+}
+
+const showNestedTable = (index, button) => {
+    let users = getUsers();
+    let educations = users[index].educations;
+ 
+    let tr = button.closest('tr');
+ 
+    let neastedTable = `<table class="table w-100 table-light">
+                                <thead>
+                                    <tr>
+                                        <th>University</th>
+                                        <th>College</th>
+                                        <th>Start Year</th>
+                                        <th>PassOut Year</th>
+                                        <th>Percentage</th>
+                                        <th>Backlog</th>
+                                    </tr>
+                                </thead>
+                            <tbody>`;
+ 
+                            educations.forEach(education => {
+                                neastedTable += `<tr>
+                                                    <td>${education.university}</td>
+                                                    <td>${education.college}</td>
+                                                    <td>${education.startYear}</td>
+                                                    <td>${education.passoutYear}</td>
+                                                    <td>${education.percentage}</td>
+                                                    <td>${education.backlog}</td>
+                                                <tr>`;
+                            })
+ 
+                            neastedTable +=   `   </tbody>
+                       </table>`;
+ 
+    if(table.row(tr).child.isShown()) table.row(tr).child(neastedTable).hide()
+    else table.row(tr).child(neastedTable).show()
 }
 
 renderUsers();
